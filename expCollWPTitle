@@ -1,0 +1,28 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
+<script type="text/javascript" >
+  jQuery(document).ready(function() {
+  jQuery("#WebPartWPQ2").hide();
+ 
+//Add Expand Icon to Web Part Header
+    $('Span#WebPartTitleWPQ2').find('h2').append("<span style='padding-left:0.5em; text-decoration:none'> <img id='ExpandCollapse' src='/_layouts/images/Expand.gif'></span>");
+ 
+  //toggle the component with class msg_body
+  jQuery(".ms-webpart-chrome-title ").click(function()
+  {
+    jQuery(this).next("#WebPartWPQ2").slideToggle(400);
+ 
+   //Replace Expand-Collapse Image  
+   var ExpandCollIMG = $('img#ExpandCollapse').attr('src');
+   if (ExpandCollIMG === '/_layouts/images/COLLAPSE.gif' )
+    {
+        $('img#ExpandCollapse').attr('src', '/_layouts/images/Expand.gif');
+    }
+    
+   if ( ExpandCollIMG === '/_layouts/images/Expand.gif' )
+    {
+        $('img#ExpandCollapse').attr('src', '/_layouts/images/COLLAPSE.gif');
+    }
+  });
+});
+ 
+</script>
