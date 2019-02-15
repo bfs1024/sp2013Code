@@ -1,0 +1,150 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+	.flex-container {
+	display: flex;
+	background: white;
+	width:50%;
+	justify-content: center;
+}
+
+.flex-container > div {
+	margin: 10px;
+	padding: 20px;
+	font-size: 25px;
+}
+
+#divListItems{
+	background:#205493;
+	color:white;
+}
+
+
+#ads{
+background: #981b1e;
+color:white;
+}
+
+#show{
+	background:#205493;
+	color:white;
+}
+</style>
+</head>
+
+<body>
+     <div class="flex-container">
+     
+     	<div id="divListItems"></div>
+     	
+     	<div id="ads"></div>
+     	<div id="show"></div>
+     </div>    
+   
+        <script>
+           $(document).ready(function() {    
+    retrieveListItems();
+    retrieveListItems2();
+    retrieveListItems3();    
+}); 
+
+function retrieveListItems() {
+   // var siteUrl = _spPageContextInfo.webAbsoluteUrl;
+    var fullUrl = "https://vaww.vashare.oit.va.gov/sites/PrivacyHub/_api/web/lists/getbytitle('VACO%20Privacy%20Service%20Helpdesk')/Items?$select=Title,Response_x0020_Time";    
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded,
+        error: onQueryFailed
+    });
+    
+}
+function onQuerySucceeded(data){
+console.log(data);
+
+var sum = 0;
+
+// data.responseJSON.d.results is an array of items returned
+for(var i=0; i<data.d.results.length; i++) {
+
+
+    // get the current item
+    var current = data.d.results[i];
+   
+    
+    // convert it's response time to a float and add it to sum
+    sum += parseFloat(current["Response_x0020_Time"]);
+}
+
+// now divide sum by the length of the array
+var average = "Response Time: " + (sum / data.d.results.length).toFixed(2);
+
+// shove it into the div
+$('#divListItems').html(average)
+	
+}
+function onQueryFailed(sender, args) {
+    alert('Error!');
+}
+
+
+function retrieveListItems2() {
+   // var siteUrl = _spPageContextInfo.webAbsoluteUrl;
+    var fullUrl = "https://vaww.vashare.oit.va.gov/sites/PrivacyHub/_api/web/lists/getbytitle('VACO%20Privacy%20Service%20Helpdesk')/Items?$select=Status&$filter=Status eq 'Open'";    
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded2,
+        error: onQueryFailed2
+    });
+}
+
+function onQuerySucceeded2(data) {
+    var listItemInfo2 = '<strong>Open: ' + data.d.results.length + '</strong>';
+    
+
+    $("#ads").html(listItemInfo2);
+} 
+
+function onQueryFailed2(sender, args) {
+    alert('Error!');
+}
+
+
+function retrieveListItems3() {
+   
+    var fullUrl = "https://vaww.vashare.oit.va.gov/sites/PrivacyHub/_api/web/lists/getbytitle('VACO%20Privacy%20Service%20Helpdesk')/Items?$select=Status&$filter=Status eq 'Closed'";    
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded3,
+        error: onQueryFailed3
+    });
+}
+
+function onQuerySucceeded3(data) {
+    var listItemInfo3 = '<strong>Total: ' + data.d.results.length + '</strong>';
+    
+   
+    $("#show").html(listItemInfo3);
+} 
+
+function onQueryFailed3(sender, args) {
+    alert('Error!');
+}
+     </script>
+
+</body>
+
+</html>
