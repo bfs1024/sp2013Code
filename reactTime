@@ -1,0 +1,263 @@
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<style>
+	.flex-container {
+	display: flex;
+  flex-wrap: wrap;
+	background: white;
+	width:75%;
+	justify-content: center;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+ width: 100%;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+#divListItems{
+	background:#205493;
+	color:white;
+}
+
+
+#ads,#ads2,#show4{
+background: #981b1e;
+color:white;
+}
+
+#show,#show2,#show3{
+	background:#205493;
+	color:white;
+}
+</style>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">CDSA-1770845700-6</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">d3535670-c808-4cf7-9a48-59dcecbc8677</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://navsea.navy.deps.mil/sites/wc-nswcdd-damneck/10/_layouts/15/DocIdRedir.aspx?ID=CDSA-1770845700-6, CDSA-1770845700-6</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+     <div class="flex-container">
+     
+     	<div id="divListItems"></div>
+     	 <div id="ads"></div>
+     	<div id="show"></div>
+        <!--<div id="ads2"></div>-->
+        <br/>
+        <div id="show4"></div>
+     	<div id="show2"></div>
+        <div id="show3"></div>
+        
+     </div>  
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>	  
+   
+        <script>
+           $(document).ready(function() {    
+    //retrieveListItems();
+    retrieveListItems2();
+    retrieveListItems3();
+    retrieveListItems4();
+    retrieveListItems5();    
+}); 
+
+function retrieveListItems() {
+   // var siteUrl = _spPageContextInfo.webAbsoluteUrl;
+    var fullUrl = "https://navsea.navy.deps.mil/sites/wc-nswcdd-damneck/DoItOnline/_api/web/lists/getbytitle(%27Wireless%20Device%20Requests%27)/Items&$top=500";    
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded,
+        error: onQueryFailed
+    });
+    
+}
+
+function onQuerySucceeded(data){
+var sum = 39.99;
+console.log(data.d.results);
+
+// data.responseJSON.d.results is an array of items returned
+
+    // get the current item
+    //var current = data.d.results[i];
+    var current = "Cost:$ " + parseFloat(data.d.results.length * sum);
+    console.log(current);
+   
+    // convert it's response time to a float and add it to sum
+    //sum += parseFloat(current["Response_x0020_Time"]);
+
+
+
+
+// now divide sum by the length of the array
+//var average = "Response Time: " + (sum / data.d.results.length).toFixed(2);
+
+// shove it into the div
+$('#divListItems').html(current)
+	
+}
+function onQueryFailed(sender, args) {
+    alert('Error!');
+}
+
+/*Call 2 */
+
+function retrieveListItems2() {
+   // var siteUrl = _spPageContextInfo.webAbsoluteUrl;
+    var fullUrl = "https://navsea.navy.deps.mil/sites/wc-nswcdd-damneck/DoItOnline/_api/web/lists/getbytitle(%27Wireless%20Device%20Requests%27)/Items?$select=Device_x0020_Issued,Device_x0020_Type&$filter=((Device_x0020_Issued eq 'Device%20Issued%20or%20Reapproved') and (Device_x0020_Type eq 'iPhone'))&$top=500"
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded2,
+        error: onQueryFailed2
+    });
+}
+
+//adds comma to numbers
+function addCommas(num) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 4) {
+        //add comma every 3 digits befor decimal
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    /* Optional formating for decimal places
+    if (str[1] && str[1].length >= 4) {
+        //add space every 3 digits after decimal
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }*/
+    return str.join('.');
+}
+
+function onQuerySucceeded2(data) {
+    var listItemInfo2 = '<strong>Active iPhones: ' + data.d.results.length + ' out of 270</strong>';
+    console.log(data.d.results)	
+
+    var product = data.d.results.length * 43.03;
+    var productComma = addCommas(product)
+    
+    var listItemInfo21 = '<strong>Monthly Cost:$' + productComma + '</strong>';
+    
+     //Iphones activated
+     $("#divListItems").html(listItemInfo2);
+      ///monthly cost	
+    $("#ads").html(listItemInfo21);
+    
+} 
+
+function onQueryFailed2(sender, args) {
+    alert('Error!');
+}
+
+////function3
+function retrieveListItems3() {
+   
+    var fullUrl = "https://navsea.navy.deps.mil/sites/wc-nswcdd-damneck/DoItOnline/_api/web/lists/getbytitle(%27Wireless%20Device%20Requests%27)/Items?$select=Device_x0020_Issued,Device_x0020_Type&$filter=((Device_x0020_Issued eq 'Device%20Issued%20or%20Reapproved') and (Device_x0020_Type eq 'MiFi'))&$top=500"
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded3,
+        error: onQueryFailed3
+    });
+}
+
+function onQuerySucceeded3(data) {
+console.log(data)
+    var listItemInfo3 = '<strong>Active MiFi: ' + data.d.results.length + ' out of 67</strong>';
+    
+    var product = data.d.results.length * 27.50;
+    var productComma = addCommas(product)
+    
+    
+    var listItemInfo21 = '<strong>Monthly Cost MiFi:$' + productComma + '</strong>';
+
+    
+   
+    $("#show").html(listItemInfo3);
+    $("#show4").html(listItemInfo21);
+} 
+
+function onQueryFailed3(sender, args) {
+    alert('Error!');
+}
+
+
+
+////function4
+function retrieveListItems4() {
+   
+    var fullUrl = "https://navsea.navy.deps.mil/sites/wc-nswcdd-damneck/DoItOnline/_api/web/lists/getbytitle(%27Wireless%20Device%20Requests%27)/Items?$select=Device_x0020_Issued,Device_x0020_Type&$filter=((Device_x0020_Issued eq 'Device%20Issued%20or%20Reapproved') and (Device_x0020_Type eq 'iPad'))&$top=500"
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded4,
+        error: onQueryFailed4
+    });
+}
+
+function onQuerySucceeded4(data) {
+console.log(data)
+    var listItemInfo4 = '<strong>iPads: ' + data.d.results.length + '</strong>';
+    
+   
+    $("#show2").html(listItemInfo4);
+} 
+
+function onQueryFailed4(sender, args) {
+    alert('Error!');
+}
+
+////function5
+function retrieveListItems5() {
+   
+    var fullUrl = "https://navsea.navy.deps.mil/sites/wc-nswcdd-damneck/DoItOnline/_api/web/lists/getbytitle(%27Wireless%20Device%20Requests%27)/Items?$select=Device_x0020_Issued,Device_x0020_Type&$filter=((Device_x0020_Issued eq 'Device%20Issued%20or%20Reapproved') and (Device_x0020_Type eq 'Air Card'))&$top=500"
+    $.ajax({
+        url: fullUrl,
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+            "content-type": "application/json;odata=verbose",
+        },
+        success: onQuerySucceeded5,
+        error: onQueryFailed5
+    });
+}
+
+function onQuerySucceeded5(data) {
+console.log(data)
+    var listItemInfo5 = '<strong>Air Cards: ' + data.d.results.length + '</strong>';
+    
+   
+    $("#show3").html(listItemInfo5);
+} 
+
+function onQueryFailed5(sender, args) {
+    alert('Error!');
+}
+     </script>
+
+</body>
+
+</html>
