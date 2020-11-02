@@ -1,10 +1,11 @@
 $(document).ready(function() {    
+	
     loadItems();    
 });    
     
   
 function loadItems() {    
-    var siteUrl = "https://usff.navy.deps.mil/sites/netwarcom/N4-N7/KM/BenSandBox/_api/web/lists/getbytitle('TaskList')/items?$select=Title,JobNumber,Department,ProjectLead";
+    var siteUrl = "..../_api/web/lists/getbytitle('TaskList')/items?$select=Title,JobNumber,Department,ProjectLead";
    // var oDataUrl = siteUrl;   
     $.ajax({    
         url: siteUrl,    
